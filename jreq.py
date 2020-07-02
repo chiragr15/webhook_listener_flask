@@ -7,7 +7,6 @@ app = Flask(__name__, template_folder='template')
 def alerts():
 	if request.method == 'POST':
 		req_data = request.get_json()
-		#jdict = json.loads(req_data)
 		metric_alert = 'alerts' in req_data
 		lods_alert = 'msg' in req_data
 		if metric_alert:
@@ -17,7 +16,7 @@ def alerts():
 				for keys in metrics_alert:
 					write_content += '<p>'
 					for vals in keys:
-						write_content += '<h5>'+ keys[vals] + '</h5>'
+						write_content += '<h5>'+ vals + " : " + keys[vals] + '</h5>'
 					write_content+= '</p>'
 				m.write(write_content)
 			
@@ -27,7 +26,7 @@ def alerts():
 				content = ''
 				for logvals in req_data:
 					content += '<p>'
-					content += '<h5>' + str(req_data[logvals]) + '</h5>'
+					content += '<h5>' + logvals + ' : '+ str(req_data[logvals]) + '</h5>'
 					content += '</p>'
 				l.write(content)
 			return ''	
@@ -42,4 +41,4 @@ def home():
 
 
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run(host='0.0.0.0',debug=True)
